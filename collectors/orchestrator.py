@@ -122,3 +122,8 @@ class CollectorOrchestrator:
             f.write(snapshot.model_dump_json(indent=2))
         logger.info(f"Snapshot cached to JSON file: {destination_path}")
         return destination_path
+
+
+# Backward compatibility alias
+MetricsOrchestrator = CollectorOrchestrator
+

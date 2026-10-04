@@ -9,7 +9,7 @@ from collectors.network_collector import NetworkCollector
 from collectors.service_collector import ServiceCollector
 from collectors.software_collector import SoftwareCollector
 from collectors.user_collector import UserCollector
-from collectors.orchestrator import CollectorOrchestrator
+from collectors.orchestrator import CollectorOrchestrator, MetricsOrchestrator
 
 __all__ = [
     "BaseCollector",
@@ -22,4 +22,5 @@ __all__ = [
     "SoftwareCollector",
     "UserCollector",
     "CollectorOrchestrator",
+    "MetricsOrchestrator",
 ]

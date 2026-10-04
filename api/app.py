@@ -59,6 +59,15 @@ def create_app() -> FastAPI:
     # Serve static assets
     app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
+    @app.get("/favicon.ico", include_in_schema=False)
+    async def favicon():
+        """Serves favicon or 204 No Content to avoid browser 404 errors."""
+        favicon_file = STATIC_DIR / "favicon.ico"
+        if favicon_file.exists():
+            return FileResponse(str(favicon_file))
+        from fastapi import Response
+        return Response(status_code=204)
+
     @app.get("/", include_in_schema=False)
     async def serve_dashboard():
         """Serves the interactive web dashboard matching the reference interface."""
