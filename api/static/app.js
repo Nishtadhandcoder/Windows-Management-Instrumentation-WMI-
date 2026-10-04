@@ -19,6 +19,7 @@ const tabViews = document.querySelectorAll('.tab-view');
 // Initialization & Tab Navigation
 // ==========================================================================
 document.addEventListener('DOMContentLoaded', () => {
+  setupTheme();
   setupNavigation();
   setupFilters();
   loadLatestSnapshot();
@@ -30,6 +31,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 30000);
 });
+
+function setupTheme() {
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const savedTheme = localStorage.getItem('wmi_theme') || 'dark'; // default to stunning dark mode
+  document.documentElement.setAttribute('data-theme', savedTheme);
+
+  if (themeToggleBtn) {
+    themeToggleBtn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const nextTheme = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', nextTheme);
+      localStorage.setItem('wmi_theme', nextTheme);
+    });
+  }
+}
 
 function setupNavigation() {
   navItems.forEach(item => {
