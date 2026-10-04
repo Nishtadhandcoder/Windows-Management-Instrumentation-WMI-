@@ -34,12 +34,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function setupTheme() {
   const themeToggleBtn = document.getElementById('themeToggleBtn');
-  const savedTheme = localStorage.getItem('wmi_theme') || 'dark'; // default to stunning dark mode
+  // Default to professional warm nude palette
+  let savedTheme = localStorage.getItem('wmi_theme');
+  if (!savedTheme || savedTheme === 'dark') {
+    savedTheme = 'light';
+    localStorage.setItem('wmi_theme', 'light');
+  }
   document.documentElement.setAttribute('data-theme', savedTheme);
 
   if (themeToggleBtn) {
     themeToggleBtn.addEventListener('click', () => {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
       const nextTheme = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', nextTheme);
       localStorage.setItem('wmi_theme', nextTheme);
