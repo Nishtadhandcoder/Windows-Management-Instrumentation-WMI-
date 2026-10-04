@@ -1,0 +1,8 @@
+wmi==1.5.1
+pywin32==312
+python-dotenv==1.2.4
+pymongo==4.18.2
+pydantic==2.13.5
+fastapi==0.142.2
+uvicorn==0.54.0
+apscheduler==3.11.3

@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments & virtualenvs
+.env
+venv/
+env/
+ENV/
+
+# Logs and databases
+logs/
+*.log
+
+# Local test snapshots (keep directory structure)
+data/snapshots/*.json
+!data/snapshots/.gitkeep
+
+# IDE files
+.vscode/
+.idea/

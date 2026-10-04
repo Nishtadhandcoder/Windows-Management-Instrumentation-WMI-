@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windows Machine Details - WMI System Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="window-container">
+    <!-- Window Title Bar -->
+    <header class="window-titlebar">
+      <div class="titlebar-left">
+        <svg class="window-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        <span class="window-title">Windows Machine Details</span>
+      </div>
+      <div class="titlebar-controls">
+        <button class="control-btn" title="Minimize">&#8212;</button>
+        <button class="control-btn" title="Maximize">&#9633;</button>
+        <button class="control-btn close" title="Close">&#10005;</button>
+      </div>
+    </header>
+
+    <!-- App Body: Sidebar + Main Area -->
+    <div class="window-body">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav class="nav-menu">
+          <button class="nav-item active" data-tab="overview">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Overview</span>
+          </button>
+
+          <button class="nav-item" data-tab="software">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+              <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            </svg>
+            <span>Installed Software</span>
+          </button>
+
+          <button class="nav-item" data-tab="osinfo">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="9" height="9"></rect>
+              <rect x="13" y="2" width="9" height="9"></rect>
+              <rect x="2" y="13" width="9" height="9"></rect>
+              <rect x="13" y="13" width="9" height="9"></rect>
+            </svg>
+            <span>OS Info</span>
+          </button>
+
+          <button class="nav-item" data-tab="network">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+            <span>Network Configuration</span>
+          </button>
+
+          <button class="nav-item" data-tab="disks">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="12" x2="2" y2="12"></line>
+              <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+              <line x1="6" y1="16" x2="6.01" y2="16"></line>
+              <line x1="10" y1="16" x2="10.01" y2="16"></line>
+            </svg>
+            <span>Disk Details</span>
+          </button>
+
+          <button class="nav-item" data-tab="services">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            <span>Configured Services</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <button id="refreshBtn" class="refresh-btn" title="Trigger immediate live WMI collection">
+            <svg id="refreshSpinner" class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            <span id="refreshText">Refresh</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content Container -->
+      <main class="content-area">
+        <!-- Notification Banner -->
+        <div id="statusBanner" class="status-banner hidden"></div>
+
+        <!-- 1. OVERVIEW VIEW (Matching exact reference screenshot layout) -->
+        <div id="view-overview" class="tab-view active">
+          <div class="dashboard-grid">
+            <!-- Row 1: Installed Software & Availability -->
+            <div class="card card-software">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon blue">📦</span>
+                  <h3 class="card-title">Installed Software</h3>
+                </div>
+              </div>
+              <div class="card-body dl-grid">
+                <div class="dl-row"><span class="dl-dt">Software</span><span class="dl-dd" id="ov-software-name">Loading...</span></div>
+                <div class="dl-row"><span class="dl-dt">Installation Date</span><span class="dl-dd" id="ov-software-date">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Vendor</span><span class="dl-dd" id="ov-software-vendor">-</span></div>
+              </div>
+            </div>
+
+            <div class="card card-availability">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon green">📈</span>
+                  <h3 class="card-title">Availability</h3>
+                </div>
+              </div>
+              <div class="card-body dl-grid">
+                <div class="dl-row">
+                  <span class="dl-dt">UP/Down</span>
+                  <span class="dl-dd status-val"><span class="status-dot green"></span><span id="ov-updown">UP</span></span>
+                </div>
+                <div class="dl-row">
+                  <span class="dl-dt">Status</span>
+                  <span class="dl-dd" id="ov-avail-status">Online</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Row 2: OS Info (Left column, spanning vertically) -->
+            <div class="card card-osinfo">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon blue">🪟</span>
+                  <h3 class="card-title">OS Info</h3>
+                </div>
+              </div>
+              <div class="card-body dl-grid">
+                <div class="dl-row"><span class="dl-dt">Local Date and Time</span><span class="dl-dd" id="ov-os-time">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Windows Directory</span><span class="dl-dd" id="ov-os-windir">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Computer Name</span><span class="dl-dd" id="ov-os-compname">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Version</span><span class="dl-dd" id="ov-os-version">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Serial Number</span><span class="dl-dd" id="ov-os-serial">-</span></div>
+                <div class="dl-row"><span class="dl-dt">OS Name</span><span class="dl-dd" id="ov-os-name">-</span></div>
+                <div class="dl-row"><span class="dl-dt">OS Architecture (64/32)</span><span class="dl-dd" id="ov-os-arch">-</span></div>
+                <div class="dl-row"><span class="dl-dt">System Type</span><span class="dl-dd" id="ov-os-systype">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Registered User</span><span class="dl-dd" id="ov-os-reguser">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Full Name</span><span class="dl-dd" id="ov-user-fullname">-</span></div>
+                <div class="dl-row"><span class="dl-dt">User Name Length</span><span class="dl-dd" id="ov-user-length">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Local Account</span><span class="dl-dd" id="ov-user-local">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Groups</span><span class="dl-dd" id="ov-user-groups">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Disabled</span><span class="dl-dd" id="ov-user-disabled">-</span></div>
+              </div>
+            </div>
+
+            <!-- Row 2 Right Column: Disk Details -->
+            <div class="card card-disk">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon purple">💾</span>
+                  <h3 class="card-title">Disk Details</h3>
+                </div>
+              </div>
+              <div class="card-body dl-grid">
+                <div class="dl-row"><span class="dl-dt">DiskSize (MB)</span><span class="dl-dd" id="ov-disk-size">-</span></div>
+                <div class="dl-row"><span class="dl-dt">DiskFreeSpace (MB)</span><span class="dl-dd" id="ov-disk-free">-</span></div>
+                <div class="dl-row"><span class="dl-dt">DiskID</span><span class="dl-dd" id="ov-disk-id">-</span></div>
+                <div class="dl-row">
+                  <span class="dl-dt">DiskUsedSpace (%)</span>
+                  <div class="progress-container">
+                    <div class="progress-bar-bg">
+                      <div class="progress-bar-fill" id="ov-disk-bar" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-label" id="ov-disk-percent">0%</span>
+                  </div>
+                </div>
+                <div class="dl-row"><span class="dl-dt">FileSystem (NTFS)</span><span class="dl-dd" id="ov-disk-fs">-</span></div>
+              </div>
+            </div>
+
+            <!-- Process Information -->
+            <div class="card card-process">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon purple">📊</span>
+                  <h3 class="card-title">Process Information</h3>
+                </div>
+              </div>
+              <div class="card-body dl-grid">
+                <div class="dl-row">
+                  <span class="dl-dt">CPU Usage</span>
+                  <div class="progress-container">
+                    <div class="progress-bar-bg">
+                      <div class="progress-bar-fill blue" id="ov-cpu-bar" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-label" id="ov-cpu-percent">0%</span>
+                  </div>
+                </div>
+                <div class="dl-row">
+                  <span class="dl-dt">Memory Usage</span>
+                  <div class="progress-container">
+                    <div class="progress-bar-bg">
+                      <div class="progress-bar-fill blue" id="ov-mem-bar" style="width: 0%"></div>
+                    </div>
+                    <span class="progress-label" id="ov-mem-percent">0%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- System Memory -->
+            <div class="card card-sysmem">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon blue">🧮</span>
+                  <h3 class="card-title">System Memory</h3>
+                </div>
+              </div>
+              <div class="card-body dl-grid">
+                <div class="dl-row"><span class="dl-dt">Total Physical Memory</span><span class="dl-dd" id="ov-total-phys">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Free Physical Memory</span><span class="dl-dd" id="ov-free-phys">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Total Virtual Memory</span><span class="dl-dd" id="ov-total-virt">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Free Virtual Memory</span><span class="dl-dd" id="ov-free-virt">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Virtual Memory Size (KB)</span><span class="dl-dd" id="ov-virt-kb">-</span></div>
+              </div>
+            </div>
+
+            <!-- Network Configuration (Row 3, spanning columns) -->
+            <div class="card card-network">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon teal">🌐</span>
+                  <h3 class="card-title">Network Configuration</h3>
+                </div>
+              </div>
+              <div class="card-body dl-grid">
+                <div class="dl-row"><span class="dl-dt">Network Interface</span><span class="dl-dd" id="ov-net-iface">-</span></div>
+                <div class="dl-row"><span class="dl-dt">IPv4 Subnet Mask</span><span class="dl-dd" id="ov-net-subnet">-</span></div>
+                <div class="dl-row"><span class="dl-dt">IPv4 Address</span><span class="dl-dd highlight" id="ov-net-ip">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Domain</span><span class="dl-dd" id="ov-net-domain">-</span></div>
+                <div class="dl-row"><span class="dl-dt">Network Interface Description</span><span class="dl-dd" id="ov-net-desc">-</span></div>
+                <div class="dl-row"><span class="dl-dt">MAC Address</span><span class="dl-dd" id="ov-net-mac">-</span></div>
+                <div class="dl-row"><span class="dl-dt">DHCP Server</span><span class="dl-dd" id="ov-net-dhcp">-</span></div>
+                <div class="dl-row"><span class="dl-dt">IPv4 Default Gateway</span><span class="dl-dd" id="ov-net-gateway">-</span></div>
+                <div class="dl-row"><span class="dl-dt">DHCP Enabled</span><span class="dl-dd" id="ov-net-dhcpenabled">-</span></div>
+              </div>
+            </div>
+
+            <!-- Configured Services (Row 4, bottom table) -->
+            <div class="card card-services">
+              <div class="card-header">
+                <div class="card-title-group">
+                  <span class="card-icon blue">⚙️</span>
+                  <h3 class="card-title">Configured Services</h3>
+                </div>
+              </div>
+              <div class="card-body table-container">
+                <table class="data-table" id="ov-services-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 22%">Service Name</th>
+                      <th style="width: 15%">Status</th>
+                      <th style="width: 48%">Path Name</th>
+                      <th style="width: 15%">Start Mode</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ov-services-tbody">
+                    <tr><td colspan="4" class="text-center">Loading services...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. DETAILED INSTALLED SOFTWARE VIEW -->
+        <div id="view-software" class="tab-view">
+          <div class="view-header">
+            <h2>Installed Software Catalog</h2>
+            <input type="text" id="softwareSearch" class="search-input" placeholder="Search applications or vendors...">
+          </div>
+          <div class="table-card">
+            <table class="data-table full-table">
+              <thead>
+                <tr>
+                  <th>Software Name</th>
+                  <th>Version</th>
+                  <th>Vendor / Publisher</th>
+                  <th>Installation Date</th>
+                </tr>
+              </thead>
+              <tbody id="full-software-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 3. DETAILED OS INFO VIEW -->
+        <div id="view-osinfo" class="tab-view">
+          <div class="view-header"><h2>Operating System & User Accounts</h2></div>
+          <div class="details-section">
+            <div class="detail-card">
+              <h3>System Identity & Platform</h3>
+              <div class="dl-grid" id="detail-os-grid"></div>
+            </div>
+            <div class="detail-card" style="margin-top: 1.5rem">
+              <h3>Local User Accounts</h3>
+              <table class="data-table full-table">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Full Name</th>
+                    <th>Status</th>
+                    <th>Local Account</th>
+                    <th>Groups</th>
+                    <th>Disabled</th>
+                  </tr>
+                </thead>
+                <tbody id="full-users-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. DETAILED NETWORK VIEW -->
+        <div id="view-network" class="tab-view">
+          <div class="view-header"><h2>Network Adapters & Connectivity</h2></div>
+          <div id="full-network-cards" class="cards-list"></div>
+        </div>
+
+        <!-- 5. DETAILED DISKS VIEW -->
+        <div id="view-disks" class="tab-view">
+          <div class="view-header"><h2>Storage Drives & Partitions</h2></div>
+          <div id="full-disks-cards" class="cards-list"></div>
+        </div>
+
+        <!-- 6. DETAILED SERVICES VIEW -->
+        <div id="view-services" class="tab-view">
+          <div class="view-header">
+            <h2>Configured Windows Services (<span id="total-services-count">0</span>)</h2>
+            <div class="filter-controls">
+              <input type="text" id="servicesSearch" class="search-input" placeholder="Search service name or path...">
+              <select id="servicesFilter" class="select-filter">
+                <option value="all">All States</option>
+                <option value="Running">Running</option>
+                <option value="Stopped">Stopped</option>
+              </select>
+            </div>
+          </div>
+          <div class="table-card">
+            <table class="data-table full-table">
+              <thead>
+                <tr>
+                  <th style="width: 20%">Service Name</th>
+                  <th style="width: 25%">Display Name</th>
+                  <th style="width: 12%">Status</th>
+                  <th style="width: 13%">Start Mode</th>
+                  <th style="width: 30%">Executable Path</th>
+                </tr>
+              </thead>
+              <tbody id="full-services-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Window Footer Bar -->
+    <footer class="window-footer">
+      <div class="footer-left">
+        <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <span>Last Refreshed: <strong id="footer-refreshed-time">-</strong></span>
+      </div>
+      <div class="footer-right">
+        <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        <span>Machine: <strong id="footer-machine-name">-</strong></span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
