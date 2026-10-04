@@ -419,6 +419,32 @@ body:not([data-theme="dark"]) .moon-icon { display: block; color: var(--accent-t
   transform: translateY(0);
 }
 
+.presentation-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+  padding: 0.55rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-sm);
+  color: var(--accent-terracotta);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  line-height: 1;
+}
+
+.presentation-link:hover {
+  background: var(--accent-sand-soft);
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta-dark);
+  transform: translateY(-1px);
+}
+
 .refresh-icon {
   width: 15px;
   height: 15px;

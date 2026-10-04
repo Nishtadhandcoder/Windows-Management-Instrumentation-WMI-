@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise WMI System Monitor - Executive Presentation Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: radial-gradient(ellipse at 50% 0%, #FAF8F5 0%, #F5F1EB 55%, #ECE5DA 100%);
+      --bg-card: #FFFFFF;
+      --bg-sidebar: #F7F4EE;
+      --border-color: #E2DBD0;
+      --border-subtle: #EDE7DC;
+      --text-primary: #2B2520;
+      --text-secondary: #6B6258;
+      --text-muted: #968D83;
+      --accent-terracotta: #A06850;
+      --accent-terracotta-dark: #87523C;
+      --accent-sage: #4E7A5E;
+      --accent-sage-bg: rgba(78, 122, 94, 0.12);
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Top Progress Bar */
+    .deck-progress-bar {
+      height: 4px;
+      background: #E5DEC6;
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .deck-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #A06850, #C48E75);
+      width: 10%;
+      transition: width 0.3s ease;
+    }
+
+    /* Top Navigation Header */
+    .deck-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.85rem 2rem;
+      background: rgba(250, 248, 245, 0.9);
+      border-bottom: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+    }
+
+    .deck-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .deck-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: var(--accent-sage-bg);
+      color: var(--accent-sage);
+      border: 1px solid rgba(78, 122, 94, 0.25);
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+    }
+
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    .deck-btn {
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.4rem 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .deck-btn:hover {
+      background: #F8F5EE;
+      color: var(--accent-terracotta);
+      border-color: var(--accent-terracotta);
+    }
+
+    .deck-btn.primary {
+      background: var(--accent-terracotta);
+      color: #FFFFFF;
+      border-color: var(--accent-terracotta);
+    }
+
+    .deck-btn.primary:hover {
+      background: var(--accent-terracotta-dark);
+    }
+
+    /* Main Slide Stage */
+    .stage {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1120px;
+      min-height: 560px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 3rem 3.5rem;
+      box-shadow: 0 16px 40px -10px rgba(60, 45, 30, 0.08);
+      position: relative;
+      animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .slide-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-terracotta);
+      margin-bottom: 0.5rem;
+    }
+
+    .slide-title {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .slide-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+
+    .slide-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* Grid Layouts inside slides */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .feature-card {
+      background: #FAF8F5;
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 1.25rem;
+    }
+
+    .feature-icon {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+    }
+
+    .feature-desc {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Comparison Table in slides */
+    .slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .slide-table th {
+      background: #F7F4EE;
+      color: var(--text-primary);
+      text-align: left;
+      padding: 0.75rem 1rem;
+      border-bottom: 2px solid var(--border-color);
+      font-weight: 700;
+    }
+
+    .slide-table td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+    }
+
+    .slide-table tr:hover td {
+      background: #FAF8F5;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1.5rem;
+      margin-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    /* Speaker Notes Drawer */
+    .notes-drawer {
+      position: fixed;
+      bottom: 60px;
+      right: 2rem;
+      width: 380px;
+      max-height: 260px;
+      background: #FFFFFF;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      padding: 1.25rem;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      display: none;
+      z-index: 90;
+      overflow-y: auto;
+    }
+
+    .notes-drawer.open { display: block; }
+    .notes-header {
+      font-weight: 700;
+      color: var(--accent-terracotta);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Bottom Control Bar */
+    .deck-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 2rem;
+      background: #FFFFFF;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .counter-pill {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+    }
+
+    .nav-arrow-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #FFFFFF;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--text-primary);
+      transition: all 0.15s ease;
+    }
+
+    .nav-arrow-btn:hover {
+      background: #F8F5EE;
+      color: var(--accent-terracotta);
+      border-color: var(--accent-terracotta);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Progress Indicator -->
+  <div class="deck-progress-bar">
+    <div id="deckProgressFill" class="deck-progress-fill"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="deck-header">
+    <div class="deck-brand">
+      <span>🖥️ Enterprise WMI Telemetry Deck</span>
+      <span class="deck-badge">LIVE ARCHITECTURE</span>
+    </div>
+    <div class="deck-controls">
+      <button id="toggleNotesBtn" class="deck-btn" title="Toggle Speaker Script (Shortcut: S)">🎙️ Speaker Notes</button>
+      <a href="/" class="deck-btn" title="Back to Live Telemetry Dashboard">📊 Live Dashboard</a>
+      <a href="/docs" class="deck-btn" target="_blank" title="Open API Documentation">📜 Swagger API</a>
+    </div>
+  </header>
+
+  <!-- Slide Stage -->
+  <main class="stage">
+
+    <!-- SLIDE 1: Title -->
+    <div class="slide active" data-slide="1">
+      <div>
+        <div class="slide-tag">Executive Presentation</div>
+        <h1 class="slide-title">Windows Management Instrumentation (WMI) Telemetry Engine</h1>
+        <p class="slide-subtitle">High-Performance System Auditing, MongoDB Persistence, and Enterprise Telemetry</p>
+      </div>
+      <div class="slide-content">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-title">Native Agentless WMI</div>
+            <div class="feature-desc">Direct COM queries to Windows root\cimv2 kernel without third-party agent overhead.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <div class="feature-title">Dual-Resilience Storage</div>
+            <div class="feature-desc">MongoDB primary store with automatic zero-loss local JSON disk caching during network outages.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📈</div>
+            <div class="feature-title">Real-Time NOC Dashboard</div>
+            <div class="feature-desc">Warm nude executive aesthetic with live telemetry beacon and automated APScheduler background daemon.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Presenter: Nishta Dhand</span>
+        <span>Target: LAPTOP-FDBN88S7 (Windows 11 64-bit)</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        Good morning everyone. Today I'm presenting the Enterprise WMI Telemetry & Persistence Engine. It provides zero-overhead, agentless hardware and software telemetry from Windows endpoints, guarantees zero-loss persistence with MongoDB and local cache, and visualizes live system health in a modern dashboard.
+      </div>
+    </div>
+
+    <!-- SLIDE 2: Problem Statement -->
+    <div class="slide" data-slide="2">
+      <div>
+        <div class="slide-tag">The Business Problem</div>
+        <h2 class="slide-title">Legacy Infrastructure Monitoring Bottlenecks</h2>
+        <p class="slide-subtitle">Why traditional IT monitoring architectures introduce security and operational risks.</p>
+      </div>
+      <div class="slide-content">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Traditional Bottleneck</th>
+              <th>Operational Risk</th>
+              <th>Our Architectural Solution</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Heavy Third-Party Agents</strong></td>
+              <td>CPU/RAM bloat, patching cycles, security vulnerabilities</td>
+              <td><strong>Native Agentless WMI</strong>: Zero endpoint software installations.</td>
+            </tr>
+            <tr>
+              <td><strong>Disconnected Data Silos</strong></td>
+              <td>Inconsistent audits between hardware, users, and software</td>
+              <td><strong>Unified Data Contract</strong>: Pydantic CompleteSystemSnapshot schema.</td>
+            </tr>
+            <tr>
+              <td><strong>Central DB Failure Risk</strong></td>
+              <td>Lost telemetry snapshots during database maintenance</td>
+              <td><strong>Resilience Mode</strong>: Seamless buffering to local disk cache.</td>
+            </tr>
+            <tr>
+              <td><strong>Manual Audit Cadence</strong></td>
+              <td>Compliance reports are stale upon generation</td>
+              <td><strong>Continuous Daemon</strong>: Autonomous 60s background probe.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 02 / 08</span>
+        <span>Infrastructure Risk Assessment</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        In enterprise IT, heavy monitoring agents increase endpoint vulnerability and resource consumption. Furthermore, if the central logging server drops, critical telemetry is lost. Our solution addresses this via native WMI and intelligent offline caching.
+      </div>
+    </div>
+
+    <!-- SLIDE 3: Architecture -->
+    <div class="slide" data-slide="3">
+      <div>
+        <div class="slide-tag">System Design</div>
+        <h2 class="slide-title">Four-Tier Production Architecture</h2>
+        <p class="slide-subtitle">Modular pipeline separating acquisition, validation, storage, and interfaces.</p>
+      </div>
+      <div class="slide-content">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">1️⃣</div>
+            <div class="feature-title">Collection Engine</div>
+            <div class="feature-desc">Thread-safe COM manager querying 8 domain-specific collectors (OS, Disks, Network, Services, Registry).</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">2️⃣</div>
+            <div class="feature-title">Data Validation</div>
+            <div class="feature-desc">Strongly typed Pydantic models enforcing schema integrity, datetime parsing, and username length computation.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">3️⃣</div>
+            <div class="feature-title">Dual Persistence</div>
+            <div class="feature-desc">MongoDB collection indexing with automatic, zero-crash fallback to local JSON snapshots.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 03 / 08</span>
+        <span>Modular Tiered Architecture</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        Our architecture cleanly separates concerns into 4 tiers: Collection, Validation, Dual Persistence, and Consumption. This guarantees thread safety and allows downstream systems to integrate via REST API or CLI effortlessly.
+      </div>
+    </div>
+
+    <!-- SLIDE 4: 8 Dimensions of Telemetry -->
+    <div class="slide" data-slide="4">
+      <div>
+        <div class="slide-tag">Telemetry Scope</div>
+        <h2 class="slide-title">Full 8-Domain Telemetry Spectrum</h2>
+        <p class="slide-subtitle">Capturing all compliance, performance, security, and hardware requirements.</p>
+      </div>
+      <div class="slide-content">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🟢</div>
+            <div class="feature-title">Availability & OS</div>
+            <div class="feature-desc">Up/Down status, probe latency (435ms), OS version, serial number, boot device, and uptime.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💾</div>
+            <div class="feature-title">Storage & Memory</div>
+            <div class="feature-desc">Disk ID, volume names, MB free/used, used %, file system (NTFS), and 16GB physical RAM metrics.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <div class="feature-title">Network & Adapters</div>
+            <div class="feature-desc">Wi-Fi 6E adapter, IPv4 address, subnet mask, default gateway, MAC address, domain, and DHCP status.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <div class="feature-title">User Accounts</div>
+            <div class="feature-desc">Usernames, computed Username Length (asus=4), security group memberships, and disabled flags.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚙️</div>
+            <div class="feature-title">300 Services</div>
+            <div class="feature-desc">Comprehensive service names, status (131 Running), binary executable paths, and startup modes.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📦</div>
+            <div class="feature-title">34 Installed Apps</div>
+            <div class="feature-desc">Scanned dual 64-bit and 32-bit registry hives for vendor, version, and installation dates.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 04 / 08</span>
+        <span>Domain Coverage</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        Notice our breadth: we track 300 configured Windows services, 34 installed applications, user account lengths, and storage capacities in under 15 seconds.
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Persistence & Resilience -->
+    <div class="slide" data-slide="5">
+      <div>
+        <div class="slide-tag">Reliability Engineering</div>
+        <h2 class="slide-title">Dual Storage Engine & Offline Resilience</h2>
+        <p class="slide-subtitle">Eliminating single points of failure in enterprise telemetry pipelines.</p>
+      </div>
+      <div class="slide-content">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🍃</div>
+            <div class="feature-title">Primary: MongoDB</div>
+            <div class="feature-desc">Time-series JSON snapshot collection with indexing on machine name, snapshot ID, and timestamp.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <div class="feature-title">Fallback: Local Cache</div>
+            <div class="feature-desc">Automatic write-buffering to data/snapshots/ whenever MongoDB is offline or undergoing maintenance.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <div class="feature-title">Zero-Crash Philosophy</div>
+            <div class="feature-desc">Neither the FastAPI server nor the background scheduler crash when the database drops connection.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 05 / 08</span>
+        <span>Storage Fault-Tolerance</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        Data integrity is our top priority. If MongoDB drops connection, the client manager intercepts the timeout and engages operational resilience mode, buffering snapshots to disk without dropping a single audit cycle.
+      </div>
+    </div>
+
+    <!-- SLIDE 6: UI & Alignment -->
+    <div class="slide" data-slide="6">
+      <div>
+        <div class="slide-tag">User Experience</div>
+        <h2 class="slide-title">Executive Nude Minimalist Dashboard</h2>
+        <p class="slide-subtitle">Clean, distraction-free interface engineered for NOC and administrative operations.</p>
+      </div>
+      <div class="slide-content">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🌿</div>
+            <div class="feature-title">Warm Nude Palette</div>
+            <div class="feature-desc">Natural linen, soft cashmere taupe, warm terracotta accents, and calming sage green indicators.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📐</div>
+            <div class="feature-title">Pixel-Perfect Alignment</div>
+            <div class="feature-desc">Fixed 175px label baselines, tabular numbers, and multi-row CSS grid coordination without vertical gaps.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <div class="feature-title">Instant Filter & Search</div>
+            <div class="feature-desc">Real-time filtering across 300 services and software catalog with live telemetry status beacon.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 06 / 08</span>
+        <span>Aesthetics & Usability</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        Rather than harsh neon schemes, our dashboard embraces a warm, refined nude palette inspired by premium design systems like Notion and Apple. Everything is aligned with mathematical precision.
+      </div>
+    </div>
+
+    <!-- SLIDE 7: Enterprise Integration -->
+    <div class="slide" data-slide="7">
+      <div>
+        <div class="slide-tag">Operations & Automation</div>
+        <h2 class="slide-title">Automation Daemon, REST API & CLI</h2>
+        <p class="slide-subtitle">Multiple operational interfaces tailored to SysAdmins, DevOps, and SIEM pipelines.</p>
+      </div>
+      <div class="slide-content">
+        <table class="slide-table">
+          <thead>
+            <tr>
+              <th>Interface</th>
+              <th>Command / Endpoint</th>
+              <th>Target Audience & Use Case</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Unified CLI</strong></td>
+              <td><code>python main.py collect</code></td>
+              <td>Terminal SysAdmins running on-demand audit probes.</td>
+            </tr>
+            <tr>
+              <td><strong>REST API</strong></td>
+              <td><code>GET /api/snapshots/latest</code></td>
+              <td>SIEM (Splunk, Elastic) and central NOC monitoring ingest.</td>
+            </tr>
+            <tr>
+              <td><strong>Scheduler</strong></td>
+              <td><code>python main.py schedule</code></td>
+              <td>Continuous background cron daemon collecting every 60s.</td>
+            </tr>
+            <tr>
+              <td><strong>OpenAPI Docs</strong></td>
+              <td><code>GET /docs</code></td>
+              <td>Interactive Swagger UI for integration engineers.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 07 / 08</span>
+        <span>Operational Interfaces</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        Automation is built directly into the application. We support CLI automation, background APScheduler cron jobs, and standardized REST endpoints documented via Swagger UI.
+      </div>
+    </div>
+
+    <!-- SLIDE 8: Summary & Business Value -->
+    <div class="slide" data-slide="8">
+      <div>
+        <div class="slide-tag">Conclusion</div>
+        <h2 class="slide-title">Business Impact & Strategic Value</h2>
+        <p class="slide-subtitle">Delivering immediate enterprise ROI with zero ongoing licensing fees.</p>
+      </div>
+      <div class="slide-content">
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <div class="feature-title">Cost Elimination</div>
+            <div class="feature-desc">Eliminates per-endpoint licensing fees charged by third-party infrastructure agent vendors.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <div class="feature-title">Security & Audit</div>
+            <div class="feature-desc">Guarantees 100% audit readiness for software compliance, local accounts, and service tracking.</div>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <div class="feature-title">Scalable Roadmap</div>
+            <div class="feature-desc">Extensible to multi-node Active Directory fleet management and AI anomaly detection.</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>Slide 08 / 08</span>
+        <span>Executive Summary</span>
+      </div>
+      <div class="speaker-note-text" style="display:none">
+        In conclusion, this project delivers tangible ROI: eliminating agent licensing fees, ensuring continuous audit compliance, and offering real-time visibility. Thank you, and I look forward to taking your questions.
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Speaker Notes Drawer -->
+  <aside id="notesDrawer" class="notes-drawer">
+    <div class="notes-header">🎙️ Speaker Script:</div>
+    <div id="notesContent">Loading script...</div>
+  </aside>
+
+  <!-- Bottom Navigation Bar -->
+  <footer class="deck-footer">
+    <button id="prevBtn" class="nav-arrow-btn" title="Previous Slide (Left Arrow)">◀</button>
+    <div id="slideCounter" class="counter-pill">01 / 08</div>
+    <button id="nextBtn" class="nav-arrow-btn" title="Next Slide (Right Arrow)">▶</button>
+  </footer>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 1;
+
+    const counter = document.getElementById('slideCounter');
+    const progressFill = document.getElementById('deckProgressFill');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const notesDrawer = document.getElementById('notesDrawer');
+    const notesContent = document.getElementById('notesContent');
+    const toggleNotesBtn = document.getElementById('toggleNotesBtn');
+
+    function updateSlide(index) {
+      if (index < 1) index = 1;
+      if (index > totalSlides) index = totalSlides;
+      currentSlide = index;
+
+      slides.forEach((slide, i) => {
+        if (i + 1 === currentSlide) {
+          slide.classList.add('active');
+          const scriptText = slide.querySelector('.speaker-note-text');
+          if (scriptText) {
+            notesContent.textContent = scriptText.textContent.trim();
+          }
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      counter.textContent = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+      progressFill.style.width = `${(currentSlide / totalSlides) * 100}%`;
+    }
+
+    prevBtn.addEventListener('click', () => updateSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => updateSlide(currentSlide + 1));
+
+    toggleNotesBtn.addEventListener('click', () => {
+      notesDrawer.classList.toggle('open');
+    });
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        updateSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        updateSlide(currentSlide - 1);
+      } else if (e.key === 's' || e.key === 'S') {
+        notesDrawer.classList.toggle('open');
+      }
+    });
+
+    // Initialize
+    updateSlide(1);
+  </script>
+</body>
+</html>
